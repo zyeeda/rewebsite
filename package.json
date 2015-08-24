@@ -1,0 +1,47 @@
+{
+  "name": "rewebsite",
+  "version": "0.1.0",
+  "description": "A universal website boilerplate based on React, Redux, Node, Koa and etc.",
+  "main": "./index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zyeeda/rewebsite.git"
+  },
+  "keywords": [
+    "universal",
+    "isomorphic",
+    "react",
+    "redux",
+    "koa",
+    "webpack",
+    "boilerplate",
+    "babel"
+  ],
+  "author": "Rui Tang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zyeeda/rewebsite/issues"
+  },
+  "homepage": "https://github.com/zyeeda/rewebsite#readme",
+  "dependencies": {
+    "babel": "^5.8.12",
+    "bunyan": "^1.4.0",
+    "fs-plus": "^2.8.1",
+    "koa": "^0.21.0",
+    "koa-bodyparser": "^2.0.0",
+    "koa-bunyan-logger": "^1.2.0",
+    "koa-compress": "^1.0.8",
+    "koa-etag": "^2.0.0",
+    "koa-fresh": "0.0.3",
+    "koa-i18n": "^1.1.0",
+    "koa-locale": "^1.0.0",
+    "koa-onerror": "^1.2.1",
+    "koa-router": "^5.1.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-livereload": "^3.8.0",
+    "gulp-nodemon": "^2.0.3"
+  }
+}
