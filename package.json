@@ -2,7 +2,7 @@
   "name": "rewebsite",
   "version": "0.1.0",
   "description": "A universal website boilerplate based on React, Redux, Node, Koa and etc.",
-  "main": "./bin/index.js",
+  "main": "./bin/server.js",
   "scripts": {},
   "repository": {
     "type": "git",
