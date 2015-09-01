@@ -12,7 +12,8 @@ module.exports = {
       'webpack-dev-server/client?http://' + host + ':' + port,
       'webpack/hot/only-dev-server',
       './src/index.js'
-    ]
+    ],
+    'vendor': ['jquery']
   },
   output: {
     path: assetsPath,
@@ -37,6 +38,7 @@ module.exports = {
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.IgnorePlugin(/\.json$/),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
