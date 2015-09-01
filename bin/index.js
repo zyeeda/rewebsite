@@ -21,4 +21,4 @@ switch (__ENVIRONMENT__) {
   break
 }
 
-require('./src/server.js')
+require('../src/server.js')

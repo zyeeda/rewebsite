@@ -2,7 +2,7 @@
   "name": "rewebsite",
   "version": "0.1.0",
   "description": "A universal website boilerplate based on React, Redux, Node, Koa and etc.",
-  "main": "./index.js",
+  "main": "./bin/index.js",
   "scripts": {},
   "repository": {
     "type": "git",
@@ -37,11 +37,19 @@
     "koa-i18n": "^1.1.0",
     "koa-locale": "^1.0.0",
     "koa-onerror": "^1.2.1",
-    "koa-router": "^5.1.2"
+    "koa-router": "^5.1.2",
+    "react": "^0.13.3"
   },
   "devDependencies": {
+    "babel-core": "^5.8.23",
+    "babel-loader": "^5.3.2",
+    "babel-plugin-typecheck": "^1.2.0",
+    "babel-runtime": "^5.8.20",
     "gulp": "^3.9.0",
     "gulp-livereload": "^3.8.0",
-    "gulp-nodemon": "^2.0.3"
+    "gulp-nodemon": "^2.0.3",
+    "react-hot-loader": "^1.2.9",
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.10.1"
   }
 }

@@ -2,8 +2,10 @@ var gulp = require('gulp')
 var nodemon = require('gulp-nodemon')
 var livereload = require('gulp-livereload')
 
-gulp.task('default', function () {
-	// listen for changes
+gulp.task('default', ['start-server', 'start-dev-server'])
+
+gulp.task('start-server', function () {
+  // listen for changes
   livereload.listen()
 
   nodemon().on('readable', function () {
@@ -18,4 +20,10 @@ gulp.task('default', function () {
       process.stderr.write(chunk)
     })
   })
+
+})
+
+gulp.task('start-dev-server', function () {
+  require('./webpack/webpack-dev-server')
+
 })

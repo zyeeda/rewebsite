@@ -17,7 +17,7 @@ const specific = {
       ...baseConfig.app,
       key: 'rewebsite-dev',
       name: 'Rewebsite - Dev',
-      port: 3000
+      port: 3001
     }
   },
 
@@ -27,7 +27,7 @@ const specific = {
       ...baseConfig.app,
       key: 'rewebsite-test',
       name: 'Rewebsite - Test',
-      port: 3001
+      port: 3010
     }
   },
 
@@ -37,7 +37,7 @@ const specific = {
       ...baseConfig.app,
       key: 'rewebsite',
       name: 'Rewebsite',
-      port: process.env.PORT || 3000
+      port: process.env.PORT || 3001
     },
     log: {
       level: 'info'
