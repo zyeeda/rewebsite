@@ -8,7 +8,6 @@ import rootRouter from './routers'
 
 app.logger = createLogger()
 
-
 app.use(rootRouter.routes())
 
 app.listen(config.app.port, () => {

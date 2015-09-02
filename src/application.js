@@ -5,6 +5,7 @@ import onerror from 'koa-onerror'
 import locale from 'koa-locale'
 import i18n from 'koa-i18n'
 import logger from 'koa-bunyan-logger'
+import staticServe from 'koa-static'
 import bodyParser from 'koa-bodyparser'
 import compress from 'koa-compress'
 import fresh from 'koa-fresh'
@@ -40,6 +41,7 @@ if (!__TEST__) {
   })
 }
 
+app.use(staticServe(path.join(__dirname, '..')))
 app.use(bodyParser())
 app.use(compress())
 app.use(fresh())

@@ -16,8 +16,8 @@ const specific = {
     app: {
       ...baseConfig.app,
       key: 'rewebsite-dev',
-      name: 'Rewebsite - Dev',
-      port: 3001
+      name: 'Rewebsite[Dev]',
+      port: parseInt(process.env.PORT) || 3000
     }
   },
 
@@ -26,8 +26,8 @@ const specific = {
     app: {
       ...baseConfig.app,
       key: 'rewebsite-test',
-      name: 'Rewebsite - Test',
-      port: 3010
+      name: 'Rewebsite[Test]',
+      port: parseInt(process.env.PORT) || 3000
     }
   },
 
@@ -37,7 +37,7 @@ const specific = {
       ...baseConfig.app,
       key: 'rewebsite',
       name: 'Rewebsite',
-      port: process.env.PORT || 3001
+      port: parseInt(process.env.PORT) || 3000
     },
     log: {
       level: 'info'

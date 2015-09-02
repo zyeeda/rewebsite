@@ -1,10 +1,12 @@
-var path = require('path');
-var webpack = require('webpack');
-var assetsPath = path.resolve(__dirname, '../static/dist');
-var host = 'localhost';
-var port = 3000;
+var webpack = require('webpack')
+var path = require('path')
+
+var host = process.env.HOST || 'localhost'
+var port = parseInt(process.env.PORT) || 3001
 
 module.exports = {
+  host: host,
+  port: port,
   devtool: 'inline-source-map',
   context: path.resolve(__dirname, '..'),
   entry: {
@@ -12,19 +14,19 @@ module.exports = {
       'webpack-dev-server/client?http://' + host + ':' + port,
       'webpack/hot/only-dev-server',
       './src/index.js'
-    ],
-    'vendor': ['jquery']
+    ]
   },
   output: {
-    path: assetsPath,
+    path: path.resolve(__dirname, '../static/dist'), // webpack will output files to this path
     filename: 'bundle.js',
-    publicPath: 'http://' + host + ':' + port + '/dist/'
+    //filename: '[name]-[hash].js', // the final output filename to the above path
+    publicPath: 'http://' + host + ':' + port + '/dist/' // the path from where the bundle will be served
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel?stage=0&optional=runtime&plugins=typecheck']},
-      { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.scss$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap' }
+      {test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel?stage=0&optional=runtime&plugins=typecheck']},
+      {test: /\.json$/, loader: 'json-loader'},
+      {test: /\.scss$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap'}
     ]
   },
   progress: true,
@@ -36,16 +38,14 @@ module.exports = {
     extensions: ['', '.json', '.js']
   },
   plugins: [
-    // hot reload
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+    new webpack.HotModuleReplacementPlugin(), // hot reload
+    //new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.IgnorePlugin(/\.json$/),
-    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       __CLIENT__: true,
       __SERVER__: false,
       __DEVELOPMENT__: true,
-      __DEVTOOLS__: true  // <-------- DISABLE redux-devtools HERE
+      __DEVTOOLS__: true // can disable redux-devtools here
     }),
   ]
-};
+}
