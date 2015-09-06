@@ -32,14 +32,12 @@ app.use(i18n(app, {
 }))
 
 // request logger
-if (!__TEST__) {
-  app.use(logger())
-  app.use(logger.requestIdContext())
-  app.use(logger.requestLogger())
-  app.on('error', (err, ctx) => {
-    ctx.log.error(err)
-  })
-}
+app.use(logger())
+app.use(logger.requestIdContext())
+app.use(logger.requestLogger())
+app.on('error', (err, ctx) => {
+  ctx.log.error(err)
+})
 
 app.use(staticServe(path.join(__dirname, '..')))
 app.use(bodyParser())

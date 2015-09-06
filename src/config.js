@@ -21,16 +21,6 @@ const specific = {
     }
   },
 
-  test: {
-    ...baseConfig,
-    app: {
-      ...baseConfig.app,
-      key: 'rewebsite-test',
-      name: 'Rewebsite[Test]',
-      port: parseInt(process.env.PORT) || 3000
-    }
-  },
-
   production: {
     ...baseConfig,
     app: {
@@ -45,4 +35,4 @@ const specific = {
   }
 }
 
-export default specific[__ENVIRONMENT__]
+export default specific[__DEVELOPMENT__ ? 'development' : 'production']

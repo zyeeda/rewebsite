@@ -3,7 +3,35 @@
   "version": "0.1.0",
   "description": "A universal website boilerplate based on React, Redux, Node, Koa and etc.",
   "main": "./bin/server.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node ./node_modules/better-npm-run start",
+    "start-dev": "node ./node_modules/better-npm-run start-dev",
+    "webpack-dev-server": "node ./node_modules/better-npm-run webpack-dev-server",
+    "build": "webpack --verbose --colors --display-error-details --config webpack/dev.config.js"
+  },
+  "betterScripts": {
+    "start": {
+      "command": "node --harmony ./bin/server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "production",
+        "PORT": 8080
+      }
+    },
+    "start-dev": {
+      "command": "node --harmony ./bin/server.js",
+      "env": {
+        "NODE_PATH": "./src"
+      }
+    },
+    "webpack-dev-server": {
+      "command": "node webpack/webpack-dev-server.js",
+      "env": {
+        "UV_THREADPOOL_SIZE": 128,
+        "NODE_PATH": "./src"
+      }
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zyeeda/rewebsite.git"
@@ -40,6 +68,7 @@
     "koa-onerror": "^1.2.1",
     "koa-router": "^5.1.2",
     "koa-static": "^1.4.9",
+    "piping": "^0.2.0",
     "react": "^0.13.3",
     "webpack-isomorphic-tools": "^0.8.1"
   },
@@ -49,6 +78,7 @@
     "babel-loader": "^5.3.2",
     "babel-plugin-typecheck": "^1.2.0",
     "babel-runtime": "^5.8.20",
+    "better-npm-run": "0.0.2",
     "css-loader": "^0.16.0",
     "gulp": "^3.9.0",
     "gulp-livereload": "^3.8.0",

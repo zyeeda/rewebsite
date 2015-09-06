@@ -9,7 +9,7 @@ const {name} = require('../package.json')
 export default function createLogger() {
   let streams = [];
 
-  if (!__PRODUCTION__) {
+  if (__DEVELOPMENT__) {
     streams.push({
       stream: process.stdout,
       level: config.log.level,
