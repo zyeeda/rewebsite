@@ -4,7 +4,6 @@
 require('../transpiler')
 
 var path = require('path')
-var rootDir = path.resolve(__dirname, '..')
 
 // Define isomorphic constants.
 global.__CLIENT__ = false
@@ -18,11 +17,11 @@ if (__DEVELOPMENT__) {
   }
 }
 
-require('../src/server')
-
+var rootDir = path.resolve(__dirname, '..')
+require('../src/web/server')
 /*var WebpackIsomorphicTools = require('webpack-isomorphic-tools')
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/webpack-isomorphic-tools-config'))
-	.development(__DEVELOPMENT__)
-	.server(rootDir, function() {
-		require('../src/server')
-	})*/
+  .development(__DEVELOPMENT__)
+  .server(rootDir, function() {
+    require('../src/web/server')
+  })*/

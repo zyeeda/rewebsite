@@ -1,9 +1,17 @@
 import path from 'path'
 
 const baseConfig = {
-  app: {
-    root: path.normalize(path.join(__dirname, '..')),
-    host: 'localhost'
+  web: {
+    host: process.env.HOST || 'localhost',
+    port: parseInt(process.env.PORT) || 3000
+  },
+  api: {
+    host: process.env.HOST || 'localhost',
+    port: parseInt(process.env.PORT) + 1 || 3001
+  },
+  webpack: {
+    host: process.env.HOST || 'localhost',
+    port: parseInt(process.env.PORT) || 3030
   },
   log: {
     level: 'debug'
@@ -13,21 +21,29 @@ const baseConfig = {
 const specific = {
   development: {
     ...baseConfig,
-    app: {
-      ...baseConfig.app,
+    web: {
+      ...baseConfig.web,
       key: 'rewebsite-dev',
-      name: 'Rewebsite[Dev]',
-      port: parseInt(process.env.PORT) || 3000
+      name: 'reWebsite [DEV] WEB'
+    },
+    api: {
+      ...baseConfig.api,
+      key: 'reWebsite-dev-api',
+      name: 'reWebsite [DEV] API'
     }
   },
 
   production: {
     ...baseConfig,
-    app: {
-      ...baseConfig.app,
+    web: {
+      ...baseConfig.web,
       key: 'rewebsite',
-      name: 'Rewebsite',
-      port: parseInt(process.env.PORT) || 3000
+      name: 'reWebsite'
+    },
+    api: {
+      ...baseConfig.api,
+      key: 'reWebsite-api',
+      name: 'reWebsite API'
     },
     log: {
       level: 'info'

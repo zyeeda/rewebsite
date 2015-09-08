@@ -6,8 +6,8 @@ import config from './config'
 
 const {name} = require('../package.json')
 
-export default function createLogger() {
-  let streams = [];
+export default () => {
+  let streams = []
 
   if (__DEVELOPMENT__) {
     streams.push({
@@ -16,7 +16,8 @@ export default function createLogger() {
       src: true
     })
   } else {
-    let logFile = path.join(config.app.root, 'logs', `${name}.log`)
+    var rootDir = path.join(__dirname, '..')
+    let logFile = path.join(rootDir, 'logs', `${name}.log`)
 
     if (!fs.existsSync(logFile)) fs.writeFileSync(logFile)
 
@@ -32,7 +33,7 @@ export default function createLogger() {
   let options = {
     name,
     streams
-  };
+  }
 
-  return bunyan.createLogger(options);
+  return bunyan.createLogger(options)
 }
