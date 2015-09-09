@@ -4,9 +4,9 @@ import fs from 'fs-plus'
 
 import config from './config'
 
-const {name} = require('../package.json')
+const {defaultName} = require('../package.json')
 
-export default () => {
+export default (name = defaultName) => {
   let streams = []
 
   if (__DEVELOPMENT__) {
@@ -32,7 +32,8 @@ export default () => {
 
   let options = {
     name,
-    streams
+    streams,
+    serializers: bunyan.stdSerializers
   }
 
   return bunyan.createLogger(options)

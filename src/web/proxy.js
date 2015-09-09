@@ -13,12 +13,12 @@ export default (options) => {
   })
 
   return function *proxy(next) {
-    this.app.logger.debug('request path = %s', this.path)
+    this.log.debug('request path = %s', this.path)
 
     if (!this.path.startsWith(options.prefix)) return yield *next
 
     this.path = this.path.slice(options.prefix.length)
-    this.app.logger.debug('sliced request path = %s', this.path)
+    this.log.debug('sliced request path = %s', this.path)
 
     yield new Promise((resolve, reject) => {
       proxyServer.web(this.req, this.res, (err) => {

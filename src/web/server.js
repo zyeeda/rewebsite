@@ -7,9 +7,9 @@ import proxy from './proxy'
 import startApiServer from '../api/server'
 import config from '../config'
 
-const app = createApplication()
+const app = createApplication(config.web)
 
-app.logger = createLogger()
+app.logger = createLogger(config.web.key)
 app.use(staticServe(path.join(__dirname, '..', '..')))
 
 app.use(proxy('/api'))

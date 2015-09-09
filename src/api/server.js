@@ -4,9 +4,9 @@ import createApplication from '../application'
 
 import rootRouter from './routers'
 
-const app = createApplication()
+const app = createApplication(config.api)
 
-app.logger = createLogger()
+app.logger = createLogger(config.api.key)
 app.use(rootRouter.routes())
 
 export default () => {

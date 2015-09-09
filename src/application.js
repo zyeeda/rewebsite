@@ -10,7 +10,9 @@ import compress from 'koa-compress'
 import fresh from 'koa-fresh'
 import etag from 'koa-etag'
 
-export default () => {
+import createLogger from './logger'
+
+export default (config) => {
   const app = koa()
 
   // global error handler
@@ -32,7 +34,7 @@ export default () => {
   }))
 
   // request logger
-  app.use(logger())
+  app.use(logger(createLogger(config.key)))
   app.use(logger.requestIdContext())
   app.use(logger.requestLogger())
   app.on('error', (err, ctx) => {
