@@ -18,10 +18,9 @@ if (__DEVELOPMENT__) {
 }
 
 var rootDir = path.resolve(__dirname, '..')
-require('../src/web/server')
-/*var WebpackIsomorphicTools = require('webpack-isomorphic-tools')
+var WebpackIsomorphicTools = require('webpack-isomorphic-tools')
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/webpack-isomorphic-tools-config'))
   .development(__DEVELOPMENT__)
   .server(rootDir, function() {
     require('../src/web/server')
-  })*/
+  })

@@ -2,7 +2,10 @@ var webpack = require('webpack')
 var path = require('path')
 
 var host = process.env.HOST || 'localhost'
-var port = parseInt(process.env.PORT) || 3001
+var port = parseInt(process.env.PORT) || 3030
+
+var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools-config'))
 
 module.exports = {
   host: host,
@@ -26,7 +29,8 @@ module.exports = {
     loaders: [
       {test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel?stage=0&optional=runtime&plugins=typecheck']},
       {test: /\.json$/, loader: 'json-loader'},
-      {test: /\.scss$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap'}
+      {test: /\.scss$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap'},
+      {test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240'}
     ]
   },
   progress: true,
@@ -47,5 +51,6 @@ module.exports = {
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true // can disable redux-devtools here
     }),
+    webpackIsomorphicToolsPlugin.development()
   ]
 }
