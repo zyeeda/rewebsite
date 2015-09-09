@@ -7,7 +7,7 @@
     "start": "node ./node_modules/better-npm-run start",
     "start-dev": "node ./node_modules/better-npm-run start-dev",
     "webpack-dev-server": "node ./node_modules/better-npm-run webpack-dev-server",
-    "build": "webpack --verbose --colors --display-error-details --config webpack/dev.config.js"
+    "build": "webpack --verbose --colors --display-error-details --config webpack/config-dev.js"
   },
   "betterScripts": {
     "start": {

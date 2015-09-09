@@ -1,6 +1,6 @@
 var webpack = require('webpack')
 var WebpackDevServer = require('webpack-dev-server')
-var webpackConfig = require('./dev.config')
+var webpackConfig = require('./config-dev')
 
 var host = webpackConfig.host
 var port = webpackConfig.port

@@ -9,10 +9,6 @@ const baseConfig = {
     host: process.env.HOST || 'localhost',
     port: parseInt(process.env.PORT) + 1 || 3001
   },
-  webpack: {
-    host: process.env.HOST || 'localhost',
-    port: parseInt(process.env.PORT) || 3030
-  },
   log: {
     level: 'debug'
   }
