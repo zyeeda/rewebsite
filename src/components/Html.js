@@ -2,11 +2,13 @@ import React, {Component, PropTypes} from 'react'
 
 export default class Html extends Component {
   static propTypes = {
-    assets: PropTypes.object
+    assets: PropTypes.object,
+    component: PropTypes.object
   }
 
   render() {
-    const {assets} = this.props
+    const {assets, component} = this.props
+    const content = React.renderToString(component)
 
     return (
       <html lang="zh-cn">
@@ -23,7 +25,7 @@ export default class Html extends Component {
           })}
         </head>
         <body>
-          <div id="container" />
+          <div id="viewport" dangerouslySetInnerHTML={{__html: content}} />
           <script src={assets.javascript.main} />
         </body>
       </html>

@@ -1,9 +1,7 @@
-import React from 'react';
-import $ from 'jquery'
-import HelloWorld from './hello-world'
+import React from 'react'
 
-console.log('---client running...');
+import HelloWorld from './components/hello-world'
 
 React.render(
   <HelloWorld />,  document.querySelector('#container')
-);
+)

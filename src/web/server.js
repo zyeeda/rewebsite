@@ -8,7 +8,7 @@ import proxy from './proxy'
 import startApiServer from '../api/server'
 import config from '../config'
 
-import Html from '../components/Html'
+import Html from '../components/html'
 
 const app = createApplication(config.web)
 
@@ -24,7 +24,7 @@ app.use(function* (next) {
 
   // no server-side rendering now
   this.body = ('<!doctype html>\n' +
-    React.renderToString(<Html assets={webpackIsomorphicTools.assets()} />))
+    React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div id="container" />} />))
 })
 
 app.listen(config.web.port, (err) => {
