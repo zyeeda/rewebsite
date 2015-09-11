@@ -7,6 +7,8 @@ import createLogger from '../logger'
 import proxy from './proxy'
 import startApiServer from '../api/server'
 import config from '../config'
+import {ServerAgent} from '../api-agent'
+import createReduxStore from '../redux/create-store'
 
 import Html from '../components/html'
 
@@ -15,16 +17,23 @@ const app = createApplication(config.web)
 app.logger = createLogger(config.web.key)
 app.use(staticServe(path.join(__dirname, '..', '..', 'static')))
 
-app.use(proxy('/api'))
+app.use(proxy(config.web.apiServerPrefix))
 
 app.use(function* (next) {
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh()
   }
 
+  const agent = new ServerAgent(this.req)
+  const store = createReduxStore()
+
   // no server-side rendering now
   this.body = ('<!doctype html>\n' +
-    React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div id="container" />} />))
+    React.renderToString(
+      <Html
+        assets={webpackIsomorphicTools.assets()}
+        component={<div id="container" />}
+        store={store} />))
 })
 
 app.listen(config.web.port, (err) => {

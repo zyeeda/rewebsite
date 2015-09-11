@@ -3,7 +3,8 @@ import path from 'path'
 const baseConfig = {
   web: {
     host: process.env.HOST || 'localhost',
-    port: parseInt(process.env.PORT) || 3000
+    port: parseInt(process.env.PORT) || 3000,
+    apiServerPrefix: '/api'
   },
   api: {
     host: process.env.HOST || 'localhost',
