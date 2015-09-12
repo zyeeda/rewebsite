@@ -12,7 +12,7 @@ export default (options) => {
     }
   })
 
-  return function *proxy(next) {
+  return function* (next) {
     this.log.debug('request path = %s', this.path)
 
     if (!this.path.startsWith(options.prefix)) return yield *next

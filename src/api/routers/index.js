@@ -5,7 +5,7 @@ import users from './users'
 
 const router = new Router();
 
-router.use(function *(next) {
+router.use(function* (next) {
   this.type = 'json'
   yield next
 })

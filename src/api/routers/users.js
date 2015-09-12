@@ -2,7 +2,7 @@ import Router from 'koa-router'
 
 const router = new Router()
 
-router.get('/', function *(next) {
+router.get('/', function* (next) {
   this.body = [{
     id: '1',
     username: 'tom',
