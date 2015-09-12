@@ -7,7 +7,7 @@ import createLogger from '../logger'
 import proxy from './proxy'
 import startApiServer from '../api/server'
 import config from '../config'
-import {ServerAgent} from '../api-agent'
+import {ServerAgent} from '../helpers/api-agent'
 import createReduxStore from '../redux/create-store'
 
 import Html from '../components/html'
