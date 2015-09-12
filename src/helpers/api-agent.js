@@ -47,6 +47,6 @@ export class ServerAgent extends ApiAgent {
 
   formatUrl(path) {
     super.formatUrl(path)
-    return 'http://localhost:' + config.api.port + path
+    return 'http://' + config.api.host + ':' + config.api.port + path
   }
 }
