@@ -16,7 +16,7 @@ module.exports = {
     'main': [
       'webpack-dev-server/client?http://' + host + ':' + port,
       'webpack/hot/only-dev-server',
-      './src/index.js'
+      './src/client.js'
     ]
   },
   output: {
