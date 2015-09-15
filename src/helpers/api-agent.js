@@ -1,6 +1,6 @@
 import superagent from 'superagent'
 
-import config from './config'
+import config from '../config'
 
 class ApiAgent {
   constructor(req) {
