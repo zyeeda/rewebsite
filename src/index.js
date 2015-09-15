@@ -1,7 +1,8 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 import HelloWorld from './components/hello-world'
 
-React.render(
+ReactDOM.render(
   <HelloWorld />,  document.querySelector('#container')
 )
