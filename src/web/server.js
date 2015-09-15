@@ -1,6 +1,7 @@
 import path from 'path'
 import staticServe from 'koa-static'
 import React from 'react'
+import PrettyError from 'pretty-error'
 
 import createApplication from '../application'
 import createLogger from '../logger'
@@ -12,6 +13,7 @@ import createReduxStore from '../redux/create-store'
 
 import Html from '../components/html'
 
+const pretty = new PrettyError()
 const app = createApplication(config.web)
 
 app.logger = createLogger(config.web.key)
@@ -38,7 +40,7 @@ app.use(function* (next) {
 
 app.listen(config.web.port, (err) => {
   if (err) {
-    console.error(err)
+    console.error(pretty.render(err))
   } else {
     startApiServer().then(() => {
       app.logger.info('Server is running...')
