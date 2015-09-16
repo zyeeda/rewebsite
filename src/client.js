@@ -1,8 +1,15 @@
+window.__SERVER__ = false
+
+import 'babel/polyfill';
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import HelloWorld from './components/hello-world'
+import createStore from './redux/create-store'
+import setupRouter from './helpers/setup-router'
 
-ReactDOM.render(
-  <HelloWorld />,  document.querySelector('#container')
-)
+const store = createStore()
+
+setupRouter(store).then((options) => {
+  ReactDOM.render(options.component, document.querySelector('#container'))
+})

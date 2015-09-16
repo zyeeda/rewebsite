@@ -9,7 +9,7 @@ import proxy from './proxy'
 import startApiServer from '../api/server'
 import config from '../config'
 import {ServerAgent} from '../helpers/api-agent'
-import createReduxStore from '../redux/create-store'
+import createStore from '../redux/create-store'
 
 import Html from '../components/html'
 
@@ -27,10 +27,10 @@ app.use(function* (next) {
   }
 
   const agent = new ServerAgent(this.req)
-  const store = createReduxStore()
+  const store = createStore()
 
   // no server-side rendering now
-  this.body = ('<!doctype html>\n' +
+  this.body = ('<!doctype html>' +
     React.renderToString(
       <Html
         assets={webpackIsomorphicTools.assets()}
