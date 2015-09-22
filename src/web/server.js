@@ -6,7 +6,6 @@ import PrettyError from 'pretty-error'
 import createApplication from '../application'
 import createLogger from '../logger'
 import proxy from './proxy'
-import startApiServer from '../api/server'
 import config from '../config'
 import {ServerAgent} from '../helpers/api-agent'
 import createStore from '../redux/create-store'
@@ -30,7 +29,7 @@ app.use(function* (next) {
   const store = createStore()
 
   // no server-side rendering now
-  this.body = ('<!doctype html>' +
+  this.body = ('<!doctype html>\n' +
     React.renderToString(
       <Html
         assets={webpackIsomorphicTools.assets()}
@@ -41,11 +40,8 @@ app.use(function* (next) {
 app.listen(config.web.port, (err) => {
   if (err) {
     console.error(pretty.render(err))
-  } else {
-    startApiServer().then(() => {
-      app.logger.info('Server is running...')
-      app.logger.info('%s server listening on %s:%d...', config.api.name, config.api.host, config.api.port)
-      app.logger.info('%s server listening on %s:%d...', config.web.name, config.web.host, config.web.port)
-    })
+    return
   }
+
+  app.logger.info('%s server is listening on %s:%d...', config.web.name, config.web.host, config.web.port)
 })

@@ -1,3 +1,5 @@
+import PrettyError from 'pretty-error'
+
 import config from '../config'
 import createLogger from '../logger'
 import createApplication from '../application'
@@ -9,14 +11,11 @@ const app = createApplication(config.api)
 app.logger = createLogger(config.api.key)
 app.use(rootRouter.routes())
 
-export default () => {
-  return new Promise((resolve, reject) => {
-    app.listen(config.api.port, (err) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve()
-      }
-    })
-  })
-}
+app.listen(config.api.port, (err) => {
+  if (err) {
+    console.error(pretty.render(err))
+    return
+  }
+
+  app.logger.info('%s server is listening on %s:%d...', config.api.name, config.api.host, config.api.port)
+})
