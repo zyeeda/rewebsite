@@ -1,11 +1,31 @@
-var webpack = require('webpack')
+var fs = require('fs')
 var path = require('path')
+var webpack = require('webpack')
 
 var host = process.env.HOST || 'localhost'
-var port = parseInt(process.env.PORT) || 3030
+var port = parseInt(process.env.PORT) || 3200
 
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools-config'))
+
+var babelLoaderQuery = {}
+try {
+  // The .babelrc file must be specified like this, not "../.babelrc".
+  babelLoaderQuery = JSON.parse(fs.readFileSync('./.babelrc'))
+} catch (err) {
+  console.error('Error parsing .babelrc.')
+  console.error(err)
+}
+
+babelLoaderQuery.plugins = babelLoaderQuery.plugins || []
+babelLoaderQuery.plugins.push('react-transform')
+babelLoaderQuery.extra = {
+  'react-transform': [{
+    target: 'react-transform-hmr',
+    imports: ['react'],
+    locals: ['module']
+  }]
+}
 
 module.exports = {
   host: host,
@@ -14,20 +34,19 @@ module.exports = {
   context: path.resolve(__dirname, '..'),
   entry: {
     'main': [
-      'webpack-dev-server/client?http://' + host + ':' + port,
-      'webpack/hot/only-dev-server',
+      'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
       './src/client.js'
     ]
   },
   output: {
     path: path.resolve(__dirname, '../static/dist'), // webpack will output files to this path
-    filename: 'bundle.js',
-    //filename: '[name]-[hash].js', // the final output filename to the above path
+    filename: '[name]-[hash:7].js', // the final output filename to the above path
+    chunkFilename: '[name]-[chunkhash].js',
     publicPath: 'http://' + host + ':' + port + '/dist/' // the path from where the bundle will be served
   },
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel?stage=0&optional=runtime&plugins=typecheck']},
+      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel?' + JSON.stringify(babelLoaderQuery)]},
       {test: /\.json$/, loader: 'json-loader'},
       {test: /\.scss$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap'},
       {test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240'}

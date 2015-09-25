@@ -43,5 +43,5 @@ app.listen(config.web.port, (err) => {
     return
   }
 
-  app.logger.info('%s server is listening on %s:%d...', config.web.name, config.web.host, config.web.port)
+  app.logger.info('%s server is listening on port %d...', config.web.name, config.web.port)
 })

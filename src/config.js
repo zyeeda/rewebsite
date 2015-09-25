@@ -8,7 +8,7 @@ const baseConfig = {
   },
   api: {
     host: process.env.HOST || 'localhost',
-    port: parseInt(process.env.PORT) + 1 || 3001
+    port: parseInt(process.env.PORT) + 1 || 3100
   },
   log: {
     level: 'debug'

@@ -1,6 +1,11 @@
+var koa = require('koa')
 var webpack = require('webpack')
 var WebpackDevServer = require('webpack-dev-server')
+var PrettyError = require('pretty-error')
+
 var webpackConfig = require('./config-dev')
+
+var pretty = new PrettyError()
 
 var host = webpackConfig.host
 var port = webpackConfig.port
@@ -18,7 +23,16 @@ var serverConfig = {
   historyApiFallback: true
 }
 
-var server = new WebpackDevServer(webpack(webpackConfig), serverConfig)
-server.listen(port, host, function () {
-  console.info('Webpack dev server listening on %s:%d', host, port)
+var app = koa()
+var compiler = webpack(webpackConfig)
+app.use(require('koa-webpack-dev-middleware')(compiler, serverConfig))
+app.use(require('koa-webpack-hot-middleware')(compiler))
+
+app.listen(port, function (err) {
+  if (err) {
+    console.error(pretty.render(err))
+    return
+  }
+
+  console.info('Webpack dev server listening on port %d', port)
 })

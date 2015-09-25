@@ -17,5 +17,5 @@ app.listen(config.api.port, (err) => {
     return
   }
 
-  app.logger.info('%s server is listening on %s:%d...', config.api.name, config.api.host, config.api.port)
+  app.logger.info('%s server is listening on port %d...', config.api.name, config.api.port)
 })
