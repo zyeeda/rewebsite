@@ -1,3 +1,3 @@
-export {routerStateReducer as router} from 'redux-react-router'
+export {routerStateReducer as router} from 'redux-router'
 
 export counter from './counter'

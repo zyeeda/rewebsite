@@ -1,8 +1,8 @@
 import {combineReducers, compose, applyMiddleware, createStore} from 'redux'
 import promiseMiddleware from 'redux-promise-middleware'
-import {reduxReactRouter} from 'redux-react-router'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
-import createMemoryHistory from 'history/lib/createMemoryHistory'
+import {reduxReactRouter as clientReduxRouter} from 'redux-router'
+import {reduxReactRouter as serverReduxRouter} from 'redux-router/server'
+import createHistory from 'history/lib/createBrowserHistory'
 
 import routes from '../routes'
 
@@ -12,16 +12,10 @@ export default (data) => {
 
   const store = compose(
     applyMiddleware(promiseMiddleware),
-    reduxReactRouter({
-      routes,
-      createHistory: (__SERVER__ ? createMemoryHistory : createBrowserHistory)
-    })
+    __SERVER__ ?
+      serverReduxRouter({routes}) :
+      clientReduxRouter({routes, createHistory})
   )(createStore)(rootReducer, data)
 
   return store
-
-  /*let finalCreateStore = applyMiddleware(promiseMiddleware)(createStore)
-  const reducers = require('./ducks')
-  const store = finalCreateStore(combineReducers(reducers), data)
-  return store*/
 }

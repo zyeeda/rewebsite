@@ -1,6 +1,6 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import {ReduxRouter} from 'redux-react-router'
+import {ReduxRouter} from 'redux-router'
 
 export default (store) => {
   return new Promise((resolve) => {
