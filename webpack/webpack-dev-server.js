@@ -1,6 +1,5 @@
 var koa = require('koa')
 var webpack = require('webpack')
-var WebpackDevServer = require('webpack-dev-server')
 var PrettyError = require('pretty-error')
 
 var webpackConfig = require('./config-dev')
