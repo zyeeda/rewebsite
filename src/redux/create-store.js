@@ -4,7 +4,7 @@ import {reduxReactRouter as clientReduxRouter} from 'redux-router'
 import {reduxReactRouter as serverReduxRouter} from 'redux-router/server'
 import createHistory from 'history/lib/createBrowserHistory'
 
-import routes from '../routes'
+import routes from './routes'
 
 export default (data) => {
   const ducks = require('./ducks')
