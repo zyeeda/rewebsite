@@ -22,14 +22,13 @@ app.use(staticServe(path.join(__dirname, '..', '..', 'static')))
 
 app.use(proxy(config.web.apiServerPrefix))
 
-const hydrate = (store, component) => {
-  if (!component) component = (<div id="container" />)
+const hydrate = (initialState, component = <div />) => {
   return ('<!doctype html>\n' +
     React.renderToString(
       <Html
         assets={webpackIsomorphicTools.assets()}
         component={component}
-        store={store} />))
+        initialState={initialState} />))
 }
 
 app.use(function* (next) {
@@ -39,39 +38,42 @@ app.use(function* (next) {
 
   const agent = new ServerAgent(this.req)
   const store = createStore()
+  const location = createLocation(this.url)
 
   logger.debug('__DISABLE_SSR__ = %s', __DISABLE_SSR__)
   if (__DISABLE_SSR__) {
     // no server-side rendering now
-    this.body = hydrate(store)
+    this.body = hydrate(store.getState())
     return
   }
 
   logger.debug('request url = %s', this.url)
-  createRouter(this.url, store)
+  createRouter(location, undefined, store)
     .then(({component, redirectLocation}) => {
       if (redirectLocation) {
         this.res.redirect(redirectLocation.pathname + redirectLocation.search)
         return
       }
 
-      this.body = hydrate(store, component)
+      const initialState = store.getState()
+      logger.debug(initialState, "initial store state is")
+      this.body = hydrate(initialState, component)
     })
     .catch((err) => {
       if (err.redirect) {
         this.res.redirect(err.redirect)
         return
       }
-      console.error('ROUTER ERROR:', pretty.render(err))
-      this.body = hydrate(store)
+      logger.error('ROUTER ERROR:', pretty.render(err))
+      this.body = hydrate(store.getState())
     })
 })
 
 app.listen(config.web.port, (err) => {
   if (err) {
-    console.error(pretty.render(err))
+    logger.error(pretty.render(err))
     return
   }
 
-  app.logger.info('%s server is listening on port %d...', config.web.name, config.web.port)
+  logger.info('%s server is listening on port %d...', config.web.name, config.web.port)
 })

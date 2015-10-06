@@ -5,11 +5,11 @@ export default class Html extends Component {
   static propTypes = {
     assets: PropTypes.object,
     component: PropTypes.object,
-    store: PropTypes.object
+    initialState: PropTypes.object
   }
 
   render() {
-    const {assets, component, store} = this.props
+    const {assets, component, initialState} = this.props
     const content = React.renderToString(component)
 
     return (
@@ -28,7 +28,7 @@ export default class Html extends Component {
         </head>
         <body>
           <div id="viewport" dangerouslySetInnerHTML={{__html: content}} />
-          <script dangerouslySetInnerHTML={{__html: `window.__data__=${serialize(store.getState())}`}} />
+          <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__=${serialize(initialState)}`}} />
           <script src={assets.javascript.main} />
         </body>
       </html>

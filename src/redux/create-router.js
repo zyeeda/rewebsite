@@ -1,24 +1,27 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import {ReduxRouter} from 'redux-router'
-import {match} from 'redux-router/server'
+import match from 'react-router/lib/match'
+import RoutingContext from 'react-router/lib/RoutingContext'
 
-export default (url, store) => {
+import createRoutes from './routes'
+
+const createComponent = (store, renderProps) => {
+  return (
+    <Provider store={store} key="provider">
+      <RoutingContext {...renderProps} />
+    </Provider>
+  )
+}
+
+export default (location, history, store) => {
   return new Promise((resolve, reject) => {
-    store.dispatch(match(url, (err, redirectLocation) => {
-      if (err) {
-        return reject(err)
-      }
+    match({routes: createRoutes(history), history, location}, (err, redirectLocation, renderProps) => {
+      if (err) return reject(err)
 
       if (redirectLocation) return resolve({redirectLocation})
 
-      const component = (
-        <Provider store={store} key="provider">
-          <ReduxRouter />
-        </Provider>
-      )
-
+      const component = createComponent(store, renderProps)
       return resolve({component})
-    }))
+    })
   })
 }

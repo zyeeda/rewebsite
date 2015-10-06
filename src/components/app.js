@@ -1,11 +1,21 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import {IndexLink, Link} from 'react-router'
 
 @connect(
-  state => ({routerState: state.router})
-)
+    state => ({user: state.user}))
 export default class App extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.object.isRequired,
+    user: React.PropTypes.object,
+    history: React.PropTypes.object
+  };
+
+  static contextTypes = {
+    store: React.PropTypes.object.isRequired
+  }
+
   render() {
     return (
       <div>
