@@ -10,7 +10,7 @@ import proxy from './proxy'
 import config from '../config'
 import {ServerAgent} from '../helpers/api-agent'
 import createStore from '../redux/create-store'
-import createRouter from '../redux/create-router'
+import setupRouter from '../redux/setup-router'
 
 import Html from '../components/html'
 
@@ -48,7 +48,7 @@ app.use(function* (next) {
   }
 
   logger.debug('request url = %s', this.url)
-  createRouter(location, undefined, store)
+  setupRouter(location, undefined, store)
     .then(({component, redirectLocation}) => {
       if (redirectLocation) {
         this.res.redirect(redirectLocation.pathname + redirectLocation.search)
@@ -64,7 +64,7 @@ app.use(function* (next) {
         this.res.redirect(err.redirect)
         return
       }
-      logger.error('ROUTER ERROR:', pretty.render(err))
+      logger.error(pretty.render(err))
       this.body = hydrate(store.getState())
     })
 })
