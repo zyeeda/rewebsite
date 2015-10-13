@@ -76,6 +76,7 @@
     "koa-static": "^1.4.9",
     "piping": "^0.3.0",
     "pretty-error": "^1.2.0",
+    "query-string": "2.4.2",
     "react": "^0.14.0",
     "react-dom": "0.14.0",
     "react-redux": "^3.1.0",
@@ -100,11 +101,15 @@
     "koa-webpack-dev-middleware": "^1.0.1",
     "koa-webpack-hot-middleware": "^1.0.1",
     "node-sass": "^3.3.3",
+    "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.1.1",
     "redux-devtools": "^2.1.5",
     "sass-loader": "^3.0.0",
     "strip-loader": "^0.1.0",
     "style-loader": "^0.12.4",
-    "webpack": "^1.12.2"
+    "webpack": "^1.12.2",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-hot-middleware": "^2.4.1"
   }
 }

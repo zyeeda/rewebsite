@@ -1,6 +1,9 @@
 var fs = require('fs')
 var path = require('path')
 var webpack = require('webpack')
+var PrettyError = require('pretty-error')
+
+var pretty = new PrettyError()
 
 var host = process.env.HOST || 'localhost'
 var port = parseInt(process.env.PORT) || 3200
@@ -8,25 +11,30 @@ var port = parseInt(process.env.PORT) || 3200
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools-config'))
 
-var babelLoaderQuery = {}
+var babelrcObject = {}
 try {
   // The .babelrc file must be specified like this, not "../.babelrc".
-  babelLoaderQuery = JSON.parse(fs.readFileSync('./.babelrc'))
+  babelrcObject = JSON.parse(fs.readFileSync('./.babelrc'))
 } catch (err) {
   console.error('Error parsing .babelrc.')
-  console.error(err)
+  console.error(pretty.render(err))
 }
 
+var babelrcObjectDevelopment = (babelrcObject.env && babelrcObject.env.development) || {}
+var babelLoaderQuery = Object.assign({}, babelrcObject, babelrcObjectDevelopment)
+delete babelLoaderQuery.env
+
 babelLoaderQuery.plugins = babelLoaderQuery.plugins || []
-babelLoaderQuery.plugins.push('react-transform')
+if (babelLoaderQuery.plugins.indexOf('react-transform') < 0) babelLoaderQuery.plugins.push('react-transform')
+
 babelLoaderQuery.extra = babelLoaderQuery.extra || {}
-babelLoaderQuery.extra['react-transform'] = {
-  transforms: [{
-    transform: 'react-transform-hmr',
-    imports: ['react'],
-    locals: ['module']
-  }]
-}
+if (!babelLoaderQuery.extra['react-transform']) babelLoaderQuery.extra['react-transform'] = {}
+if (!babelLoaderQuery.extra['react-transform'].transforms) babelLoaderQuery.extra['react-transforms'].transforms = []
+babelLoaderQuery.extra['react-transform'].transforms.push({
+  transform: 'react-transform-hmr',
+  imports: ['react'],
+  locals: ['module']
+})
 
 module.exports = {
   host: host,
