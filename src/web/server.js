@@ -1,17 +1,23 @@
 import path from 'path'
 import staticServe from 'koa-static'
 import React from 'react'
+import ReactDOM from 'react-dom/server'
 import PrettyError from 'pretty-error'
-import createLocation from 'history/lib/createLocation'
+import createHistory from 'history/lib/createMemoryHistory'
+import qs from 'query-string'
+import {Provider} from 'react-redux'
+import {ReduxRouter} from 'redux-router'
+import {reduxReactRouter, match} from 'redux-router/server'
 
 import createApplication from '../application'
 import createLogger from '../logger'
 import proxy from './proxy'
 import config from '../config'
 import {ServerAgent} from '../helpers/api-agent'
+import fetchData from '../helpers/fetch-data'
+import getStatusFromRoutes from '../helpers/get-status-from-routes'
 import createStore from '../redux/create-store'
-import setupRouter from '../redux/setup-router'
-
+import getRoutes from '../redux/get-routes'
 import Html from '../components/html'
 
 const pretty = new PrettyError()
@@ -22,13 +28,13 @@ app.use(staticServe(path.join(__dirname, '..', '..', 'static')))
 
 app.use(proxy(config.web.apiServerPrefix))
 
-const hydrate = (initialState, component = <div />) => {
+const hydrate = (store, component) => {
   return ('<!doctype html>\n' +
-    React.renderToString(
+    ReactDOM.renderToString(
       <Html
         assets={webpackIsomorphicTools.assets()}
-        component={component}
-        initialState={initialState} />))
+        component = {component}
+        store={store} />))
 }
 
 app.use(function* (next) {
@@ -37,36 +43,59 @@ app.use(function* (next) {
   }
 
   const agent = new ServerAgent(this.req)
-  const store = createStore()
-  const location = createLocation(this.url)
+  const store = createStore({reduxReactRouter, getRoutes, createHistory})
 
   logger.debug('__DISABLE_SSR__ = %s', __DISABLE_SSR__)
   if (__DISABLE_SSR__) {
-    // no server-side rendering now
-    this.body = hydrate(store.getState())
+    // no server-side rendering
+    this.body = hydrate(store)
     return
   }
 
-  logger.debug('request url = %s', this.url)
-  setupRouter(location, undefined, store)
-    .then(({component, redirectLocation}) => {
-      if (redirectLocation) {
-        this.res.redirect(redirectLocation.pathname + redirectLocation.search)
-        return
-      }
+  logger.debug('originalUrl = %s', this.originalUrl)
+  store.dispatch(match(this.originalUrl, (err, redirectLocation, routerState) => {
+    if (err) {
+      logger.error(err)
+      this.status = 500
+      this.body = hydrate(store)
+      return
+    }
 
-      const initialState = store.getState()
-      logger.debug(initialState, "initial store state is")
-      this.body = hydrate(initialState, component)
-    })
-    .catch((err) => {
-      if (err.redirect) {
-        this.res.redirect(err.redirect)
-        return
-      }
-      logger.error(pretty.render(err))
-      this.body = hydrate(store.getState())
-    })
+    if (redirectLocation) {
+      this.redirect(redirectLocation.pathname + redirectLocation.search)
+      return
+    }
+
+    if (!routerState) {
+      this.status = 500
+      this.body = hydrate(store)
+      return
+    }
+
+    // Workaround redux-router query string issue:
+    // https://github.com/rackt/redux-router/issues/106
+    if (routerState.location.search && !routerState.location.query) {
+      routerState.location.query = qs.parse(routerState.location.search);
+    }
+
+    logger.debug({state: store.getState()}, 'store.getState()')
+    //store.getState().router.then(() => {
+      const component = (
+        <Provider store={store} key="provider">
+          <ReduxRouter />
+        </Provider>
+      )
+
+      const status = getStatusFromRoutes(routerState.routes)
+      logger.debug('redux-router matched status = %s', status)
+      if (status) this.status = status
+      this.body = hydrate(store, component)
+    /*}).catch((err) => {
+      console.error(pretty.render(err))
+      this.status = 500
+      this.body = hydrate(store)
+    })*/
+  }))
 })
 
 app.listen(config.web.port, (err) => {
