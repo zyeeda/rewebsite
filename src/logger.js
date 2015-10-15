@@ -12,8 +12,7 @@ export default (name = defaultName) => {
   if (__DEVELOPMENT__) {
     streams.push({
       stream: process.stdout,
-      level: config.log.level,
-      src: true
+      level: config.log.level
     })
   } else {
     var rootDir = path.join(__dirname, '..')
@@ -31,6 +30,7 @@ export default (name = defaultName) => {
   }
 
   let options = {
+    src: __DEVELOPMENT__ ? true : false,
     name,
     streams,
     serializers: bunyan.stdSerializers
