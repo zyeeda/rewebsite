@@ -6,7 +6,7 @@ var PrettyError = require('pretty-error')
 var pretty = new PrettyError()
 
 var host = process.env.HOST || 'localhost'
-var port = parseInt(process.env.PORT) || 3200
+var port = parseInt(process.env.PORT) || 4200
 
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools-config'))
